@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Index Page{% endblock %}
+
+{% block header %}
+  <h1 class="page_title">あの人との素敵なクリスマスをお手伝い</h1>
+  <p class="page_sub">指定されたお相手のツイートを分析して、最適なデートプランとプレゼントをご提案します。</p>
+{% endblock %}
+
+{% block main %}
+  <form class="input_form" action="/result" method="post">
+    <input type="text" name="twitter_id" id="twitter">
+    <input type="submit" value="送信">
+  </form>
+{% endblock %}
