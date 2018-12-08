@@ -12,7 +12,9 @@ def index():
 def result():
     if request.method == 'POST':
         twitter_id = request.form['twitter_id']
-        return render_template('result.html', twitter_id=twitter_id)
+        labels = [1, 2, 3, 4, 5, 6]
+        values = [10, 50 , 100, 35, 86, 72]
+        return render_template('result.html', twitter_id=twitter_id, labels=labels, values=values)
     else:
         return redirect(url_for('index'))
 
