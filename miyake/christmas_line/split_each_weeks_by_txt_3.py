@@ -56,9 +56,9 @@ def getPersonalityInsights(str):
     return result["personality"][0]["children"][2]["raw_score"]
 
 
-def main(key_word):
+def main():
     # テキストファイルの読み込み
-    text_file = key_word
+    text_file = input("テキストファイルを入れてください")
     f = open(text_file)
     data1 = f.read()  # ファイル終端まで全て読んだデータを返す
     f.close()

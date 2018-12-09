@@ -15,8 +15,8 @@ def index():
 
 @app.route('/result', methods=['GET', 'POST'])
 def result():
-    key_word = request.form['txt_file']
-    e_personality, number_of_weekss = split_each_weeks_by_txt_3.main(key_word)
+    # key_word = request.files['txt_file']
+    e_personality, number_of_weekss = split_each_weeks_by_txt_3.main()
     values_a = []
     if request.method == 'POST':
         for e_p in e_personality:
