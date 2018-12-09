@@ -1,7 +1,4 @@
 {% extends 'base.html' %}
-{% block styles %}
-<link rel="stylesheet" href="">
-{% endblock %}
 
 {% block title %}Result Page{% endblock %}
 
@@ -10,45 +7,45 @@
 {% endblock %}
 
 {% block main %}
-<canvas id="timelineChart" width="600" height="400"></canvas>
+<canvas id="timelineChart"></canvas>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <script>
-const tlchart = document.getElementById("timelineChart").getContext('2d');
-const graphData = {
-  labels: [
-    {% for item in labels %}
-        '{{ item }}',
-    {% endfor %}
-  ],
-  datasets: [
-    {
-      label: '空気の悪さ',
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      data: [
-        {% for item in values %}
-            {{ item }},
-        {% endfor %}
-      ]
-    }
-  ]
-};
-const timelineChart = new Chart(tlchart, {
+const chArea = document.getElementById('timelineChart').getContext('2d');
+chArea.canvas.height = 150;
+const chData = {
+        labels: [
+          {% for item in labels %}
+            "{{item}}",
+          {% endfor %}
+        ],
+        datasets: [{
+          label: "空気の悪さ",
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          data: [
+            {% for item in values %}
+              {{item}},
+            {% endfor %}
+          ]
+        }]
+      }
+
+const timelineChart = new Chart(chArea , {
   type: 'line',
-  data: graphData,
+  data: chData,
   options: {
     scales: {
       ticks: {
         stepSize: 10,
         beginAtZero: true,
         min: 0,
-        max: 100,
+        max: 100
       }
     }
   }
-});
+})
 </script>
 {% endblock %}
