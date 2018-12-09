@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# coding: UTF-8
+# coding: cp932
 import re
 
 # テキストファイルの読み込み
@@ -103,4 +103,4 @@ for messages in lines_4:
 lines_5 = lines_4[1:]
 
 
-print(lines_5)
+print(lines_5[0])
