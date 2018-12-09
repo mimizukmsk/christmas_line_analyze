@@ -7,8 +7,8 @@ from os.path import join, dirname
 import json
 
 personality_insights = PersonalityInsightsV3(
-    version='{version}',
-    iam_apikey='{iam_apikey}',
+    version='2017-10-13',
+    iam_apikey='F8mkr5wIMV_8vaQN8xoXVyVuPtmGiuU1S_Fwz_zdm0nd',
     url='https://gateway.watsonplatform.net/personality-insights/api'
 )
 
@@ -20,7 +20,7 @@ def getFileName():
 
     return join(json_folder,'line_history.json')
 
-## JSONファイルの取得
+## 文字列からJSONデータ（ファイル）を取得
 def strToJson(str):
     lineHistoryArray = str.split('\n')
     tmpList = []
@@ -29,11 +29,30 @@ def strToJson(str):
     lineHistoryDict = dict(contentItems = tmpList)
 
     ## JSONファイル出力
-    with codecs.open(getFileName(),'w','utf-8') as fw:
-        json.dump(lineHistoryDict, fw, ensure_ascii=False, indent=2)
+    # with codecs.open(getFileName(),'w','utf-8') as fw:
+    #     json.dump(lineHistoryDict, fw, ensure_ascii=False, indent=2)
 
     ## JSON形式で返す
     return json.dumps(lineHistoryDict, ensure_ascii=False)
+
+## 配列からJSONデータ（ファイル）を取得
+def arrayToJson(array):
+    lineHistoryDict = []
+    for oneWeekArray in array:
+        weekTmpList = []
+        for value in oneWeekArray:
+            weekTmpList.append(dict(content=value,contenttype="text/plain",language='ja'))
+        allTmpList = dict(contentItems = weekTmpList)
+        lineHistoryDict.append(allTmpList)
+
+    lineHistoryDict = dict(lineHistoryDict)
+
+    ## print
+    print(json.dumps(lineHistoryDict, indent=2))
+
+    ## JSON形式で返す
+    return json.dumps(lineHistoryDict, ensure_ascii=False)
+
 
 ## 文字列(str)から性格情報(JSON)を取得
 def getPersonalityInsights(str):
@@ -61,9 +80,13 @@ def getPersonalityInsights(str):
 
 ## main関数
 if __name__ == '__main__':
-    printPersonality_insights("""Anaconda - Red Hat Linux, Fedora LinuxのGUIインストーラ
-Anki - 出題頻度を自動調整する暗記カードソフトウェア
-Bazaar - オープンソースの分散型バージョン管理システム
-Anaconda - Red Hat Linux, Fedora LinuxのGUIインストーラ
-Anki - 出題頻度を自動調整する暗記カードソフトウェア
-Bazaar - オープンソースの分散型バージョン管理システム""")
+
+
+
+
+#     printPersonality_insights("""Anaconda - Red Hat Linux, Fedora LinuxのGUIインストーラ
+# Anki - 出題頻度を自動調整する暗記カードソフトウェア
+# Bazaar - オープンソースの分散型バージョン管理システム
+# Anaconda - Red Hat Linux, Fedora LinuxのGUIインストーラ
+# Anki - 出題頻度を自動調整する暗記カードソフトウェア
+# Bazaar - オープンソースの分散型バージョン管理システム""")
