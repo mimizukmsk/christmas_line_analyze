@@ -1,6 +1,62 @@
 #!/usr/bin/python
 # coding: UTF-8
 import re
+import json, codecs
+from os import mkdir
+from os.path import join, dirname, abspath, exists
+
+from watson_developer_cloud import PersonalityInsightsV3
+from os.path import join, dirname
+import json
+
+
+
+personality_insights = PersonalityInsightsV3(
+    version='2017-10-13',
+    iam_apikey='F8mkr5wIMV_8vaQN8xoXVyVuPtmGiuU1S_Fwz_zdm0nd',
+    url='https://gateway.watsonplatform.net/personality-insights/api'
+)
+
+
+def array_to_str(array):
+    s = '\n'.join(array)
+    return s
+
+
+## 出力先パスの取得
+def getFileName():
+    json_folder = join(dirname(abspath('__file__')), 'json_folder/')
+    if not exists(json_folder):
+        mkdir(json_folder)
+
+    return join(json_folder,'line_history.json')
+
+## 文字列からJSONデータ（ファイル）を取得
+def strToJson(str):
+    lineHistoryArray = str.split('\n')
+    tmpList = []
+    for value in lineHistoryArray:
+        tmpList.append(dict(content=value,contenttype="text/plain",language='ja'))
+    lineHistoryDict = dict(contentItems = tmpList)
+
+    return json.dumps(lineHistoryDict, ensure_ascii=False)
+
+
+## 文字列(str)から性格情報(JSON)を取得
+def getPersonalityInsights(str):
+    ## JSONデータを認識
+    profile = personality_insights.profile(
+        strToJson(str),
+        content_type='application/json',
+        consumption_preferences=True,
+        raw_scores=True
+    ).get_result()
+
+    print(json.dumps(profile, indent=2))
+
+    return json.dumps(profile, indent=2)
+
+
 
 # テキストファイルの読み込み
 text_file = input('テキストファイルを入力してください')
@@ -108,66 +164,3 @@ for line in lines_5:
     str_line = array_to_str(line)
     getPersonalityInsights(str_line)
 
-
-
-
-
-
-
-def array_to_str(array):
-    s = '\n'.join(array)
-    return s
-
-import json, codecs
-from os import mkdir
-from os.path import join, dirname, abspath, exists
-
-from watson_developer_cloud import PersonalityInsightsV3
-from os.path import join, dirname
-import json
-
-personality_insights = PersonalityInsightsV3(
-    version='2017-10-13',
-    iam_apikey='F8mkr5wIMV_8vaQN8xoXVyVuPtmGiuU1S_Fwz_zdm0nd',
-    url='https://gateway.watsonplatform.net/personality-insights/api'
-)
-
-## 出力先パスの取得
-def getFileName():
-    json_folder = join(dirname(abspath('__file__')), 'json_folder/')
-    if not exists(json_folder):
-        mkdir(json_folder)
-
-    return join(json_folder,'line_history.json')
-
-## 文字列からJSONデータ（ファイル）を取得
-def strToJson(str):
-    lineHistoryArray = str.split('\n')
-    tmpList = []
-    for value in lineHistoryArray:
-        tmpList.append(dict(content=value,contenttype="text/plain",language='ja'))
-    lineHistoryDict = dict(contentItems = tmpList)
-
-    ## JSONファイル出力
-    # with codecs.open(getFileName(),'w','utf-8') as fw:
-    #     json.dump(lineHistoryDict, fw, ensure_ascii=False, indent=2)
-
-    ## JSON形式で返す
-    return json.dumps(lineHistoryDict, ensure_ascii=False)
-
-
-## 文字列(str)から性格情報(JSON)を取得
-def getPersonalityInsights(str):
-
-
-    ## JSONデータを認識
-    profile = personality_insights.profile(
-        strToJson(str),
-        content_type='application/json',
-        consumption_preferences=True,
-        raw_scores=True
-    ).get_result()
-
-    print(json.dumps(profile, indent=2))
-
-    return json.dumps(profile, indent=2)
