@@ -7,8 +7,8 @@ from os.path import join, dirname
 import json
 
 personality_insights = PersonalityInsightsV3(
-    version='2017-10-13',
-    iam_apikey='F8mkr5wIMV_8vaQN8xoXVyVuPtmGiuU1S_Fwz_zdm0nd',
+    version='{version}',
+    iam_apikey='{iam_apikey}',
     url='https://gateway.watsonplatform.net/personality-insights/api'
 )
 
