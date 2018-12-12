@@ -1,81 +1,7 @@
-import json, codecs
-from os import mkdir
-from os.path import join, dirname, abspath, exists
+#!/usr/bin/python
+# coding: UTF-8
 import re
-import collections as cl
 
-from watson_developer_cloud import PersonalityInsightsV3
-from os.path import join, dirname
-import json
-
-
-personality_insights = PersonalityInsightsV3(
-    version='2017-10-13',
-    iam_apikey='F8mkr5wIMV_8vaQN8xoXVyVuPtmGiuU1S_Fwz_zdm0nd',
-    url='https://gateway.watsonplatform.net/personality-insights/api'
-)
-
-## 出力先パスの取得
-def getFileName():
-    json_folder = join(dirname(abspath('__file__')), 'json_folder/')
-    if not exists(json_folder):
-        mkdir(json_folder)
-
-    return join(json_folder,'line_history.json')
-
-## 文字列からJSONデータ（ファイル）を取得
-def strToJson(str):
-    lineHistoryArray = str.split('\n')
-    tmpList = []
-    for value in lineHistoryArray:
-        tmpList.append(dict(content=value,contenttype="text/plain",language='ja'))
-    lineHistoryDict = dict(contentItems = tmpList)
-
-    ## JSONファイル出力
-    # with codecs.open(getFileName(),'w','utf-8') as fw:
-    #     json.dump(lineHistoryDict, fw, ensure_ascii=False, indent=2)
-
-    ## JSON形式で返す
-    return json.dumps(lineHistoryDict, ensure_ascii=False)
-
-## 配列から辞書型組み込んだ配列を取得
-def arrayToJson(array):
-    lineHistoryDict = []
-    for oneWeekArray in array:
-        weekTmpList = []
-        for value in oneWeekArray:
-            weekTmpList.append(dict(content=value,contenttype="text/plain",language='ja'))
-        allTmpList = dict(contentItems = weekTmpList)
-        lineHistoryDict.append(allTmpList)
-
-    ## 辞書型を組み込んだ配列を返す
-    return lineHistoryDict
-
-
-## 文字列(str)から性格情報(JSON)を取得
-def getPersonalityInsights(jsonArg):
-
-    ## JSONファイルを認識
-    #with open(join(dirname(__file__), './json_folder/line_history.json')) as profile_json:
-    #     profile = personality_insights.profile(
-    #         profile_json.read(),
-    #         content_type='application/json',
-    #         consumption_preferences=True,
-    #         raw_scores=True
-    #     ).get_result()
-
-    ## JSONデータを認識
-    profile = personality_insights.profile(
-        jsonArg,
-        content_type='application/json',
-        consumption_preferences=True,
-        raw_scores=True
-    ).get_result()
-
-    print(json.dumps(profile, indent=2))
-    return json.dumps(profile, indent=2)
-
-## トーク履歴を配列を取得
 def split_each_weeks_by_text(text_file):
     # テキストファイルの読み込み
     f = open(text_file)
@@ -178,21 +104,5 @@ def split_each_weeks_by_text(text_file):
     lines_5 = lines_4[1:]
     return lines_5
 
-# big5のpercentile抽出
-def get_big5(json_data):
-    big5 = cl.OrderedDict()
 
-    for data in json_data['personality']:
-        big5[data['name']] = data['percentile']
-    return big5
-
-## main関数
-if __name__ == '__main__':
-    result_array = split_each_weeks_by_text("talk.txt")
-    count = 0
-    for jsonWeek in arrayToJson(result_array):
-        print('******************************************************************************************************************')
-        print(count)
-        jsonPersonality = getPersonalityInsights(jsonWeek)
-        print(get_big5(jsonPersonality))
-        count += 1
+result_array = split_each_weeks_by_text("talk.txt")
