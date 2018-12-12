@@ -1,15 +1,15 @@
 # christmas_line_analyze
 [第１回WEハッカソン](https://connpass.com/event/110687/)の際に作成    
-  
+
 # 概要
 LINEのトーク履歴から相手のテンションが過去１週間ごとにどのように推移してきたかをグラフ化して表示してくれるアプリ。  
-  
+
 # 使用技術
 - Watson API(Personality Insights)
 - Python
 - Flask
 - Chart.js
-  
+
 # 使用方法
 1.watson API_KEYに自分のものを代入  
 
@@ -35,4 +35,4 @@ $ python render.1.py
 
 # 共同開発者
 taichi(@seven0525)  
-hama(@)
+hama(@mkdkkn)
