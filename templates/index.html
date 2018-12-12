@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Index Page{% endblock %}
+
+{% block header %}
+      <h1 class="page_title">LINEの空気診断</h1>
+      <div class="desc">
+        <p>クリスマス前のこの時期に今一度、パートナーとの相性をLINEの会話ログから判定します</p>
+        <p>あなたがクリぼっちになるかどうかがここで決まってしまうかも…？</p>
+      </div>
+{% endblock %}
+
+{% block main %}
+  <form class="input_form" action="/result" method="post" enctype="multipart/form-data">
+    <input type="file" name="txt_file" id="txt_file">
+    <input type="submit" value="送信">
+  </form>
+{% endblock %}
