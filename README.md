@@ -23,7 +23,7 @@ $ python render.1.py
 
 4. http://127.0.0.1:5000/にアクセス
 
-![top]()
+![top](./top/png)
 
 5.ファイルを選択からtxtファイルを選択
 
@@ -31,8 +31,8 @@ $ python render.1.py
 
 7.結果出力
 
-![top]()
+![result](./result.png)
 
 # 共同開発者
-taichi(@seven0525)
+taichi(@seven0525)  
 hama(@)
