@@ -23,7 +23,7 @@ $ python render.1.py
 
 4. http://127.0.0.1:5000/にアクセス
 
-![top](./top/png)
+![top](./top.png)
 
 5.ファイルを選択からtxtファイルを選択
 
